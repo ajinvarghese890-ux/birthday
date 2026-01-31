@@ -1,0 +1,199 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Asha</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet"><style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Poppins',sans-serif;
+  background:#0b0b10;
+  color:#eaeaea;
+  overflow-x:hidden;
+}
+
+/* BACKGROUND */
+canvas{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+}
+
+/* HERO */
+header{
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+.hero h1{
+  font-family:'Playfair Display',serif;
+  font-size:3.8rem;
+  letter-spacing:2px;
+  background:linear-gradient(90deg,#d4af37,#fff,#d4af37);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  opacity:0;
+  transform:translateY(40px);
+}
+.hero p{
+  margin-top:18px;
+  opacity:0;
+}
+
+/* SECTIONS */
+section{
+  padding:100px 10%;
+  opacity:0;
+  transform:translateY(60px);
+}
+section h2{
+  font-family:'Playfair Display',serif;
+  font-size:2.3rem;
+  margin-bottom:22px;
+}
+section p{
+  max-width:900px;
+  line-height:1.9;
+}
+
+/* GALLERY */
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:22px;
+}
+.gallery img{
+  width:100%;
+  border-radius:18px;
+  opacity:0;
+  transform:scale(.9);
+}
+
+/* BUTTON */
+.btn{
+  display:inline-block;
+  margin-top:30px;
+  padding:14px 36px;
+  border-radius:40px;
+  text-decoration:none;
+  background:linear-gradient(90deg,#d4af37,#fff);
+  color:#000;
+}
+
+footer{
+  text-align:center;
+  padding:40px;
+  opacity:.6;
+}
+
+@media(max-width:768px){
+  .hero h1{font-size:2.6rem}
+  section{padding:70px 7%}
+}
+</style></head>
+<body><canvas id="bg"></canvas>
+
+<header>
+  <div class="hero">
+    <h1 id="name">Asha</h1>
+    <p id="date">28 Years · 01 February 1998</p>
+  </div>
+</header><section class="reveal">
+  <h2>A Wish</h2>
+  <p id="wish"></p>
+</section><section class="reveal">
+  <h2>Moments</h2>
+  <div class="gallery">
+    <img src="img1.jpg">
+    <img src="img2.jpg">
+    <img src="img3.jpg">
+  </div>
+</section><section class="reveal">
+  <h2>Connect</h2>
+  <a class="btn" href="https://www.instagram.com/ms__asha?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">Instagram</a>
+</section><script>
+// FORCE ANIMATIONS (NO OBSERVER, WORKS EVERYWHERE)
+
+// HERO
+window.addEventListener('load',()=>{
+  const name=document.getElementById('name');
+  const date=document.getElementById('date');
+  name.style.transition='all 1.2s ease';
+  date.style.transition='all 1.2s ease';
+  setTimeout(()=>{
+    name.style.opacity=1;
+    name.style.transform='translateY(0)';
+  },300);
+  setTimeout(()=>{date.style.opacity=1;},900);
+  typeWish();
+  revealSections();
+  revealImages();
+});
+
+// TYPEWRITER
+const text="May this year return your strength, clarity, and calm. Happy Birthday Asha.";
+let i=0;
+function typeWish(){
+  if(i<text.length){
+    document.getElementById('wish').innerHTML+=text.charAt(i);
+    i++;
+    setTimeout(typeWish,45);
+  }
+}
+
+// SECTIONS REVEAL
+function revealSections(){
+  document.querySelectorAll('section').forEach((sec,idx)=>{
+    sec.style.transition='all 1s ease';
+    setTimeout(()=>{
+      sec.style.opacity=1;
+      sec.style.transform='translateY(0)';
+    },600+idx*400);
+  });
+}
+
+// IMAGE ANIMATION
+function revealImages(){
+  document.querySelectorAll('.gallery img').forEach((img,i)=>{
+    img.style.transition='all .9s ease';
+    setTimeout(()=>{
+      img.style.opacity=1;
+      img.style.transform='scale(1)';
+    },1200+i*300);
+  });
+}
+
+// PARTICLES BACKGROUND
+// FLOWER CONFETTI BACKGROUND (BIRTHDAY STYLE)
+const c=document.getElementById('bg'),ctx=c.getContext('2d');
+function resize(){c.width=innerWidth;c.height=innerHeight}
+resize();addEventListener('resize',resize);
+const petals=[...Array(50)].map(()=>({
+  x:Math.random()*c.width,
+  y:Math.random()*c.height,
+  r:Math.random()*6+4,
+  s:Math.random()*0.6+0.3,
+  a:Math.random()*Math.PI
+}));
+function draw(){
+  ctx.clearRect(0,0,c.width,c.height);
+  petals.forEach(p=>{
+    p.y+=p.s; p.a+=0.01;
+    if(p.y>c.height){p.y=-10;p.x=Math.random()*c.width}
+    ctx.save();
+    ctx.translate(p.x,p.y);
+    ctx.rotate(p.a);
+    ctx.fillStyle='rgba(255,182,193,0.8)';
+    ctx.beginPath();
+    ctx.ellipse(0,0,p.r,p.r*0.6,0,0,Math.PI*2);
+    ctx.fill();
+    ctx.restore();
+  });
+  requestAnimationFrame(draw);
+}
+draw();
+</script></body>
+</html>
